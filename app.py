@@ -6,8 +6,14 @@ index_name = "revolut"
 
 def main():
 
-    haystack_embed.embed(source=path_doc, index_name=index_name, recreate_index=True)
-    haystack_query.query("How would Revolut be impacted by AIG going bankrupt?", index_name=index_name)
+    haystack_embed.embed(source=path_doc,
+                         index_name=index_name,
+                         recreate_index=True
+    )
+    haystack_query.query("How would Revolut be impacted by AIG going bankrupt?",
+                         index_name=index_name,
+                         reranker="cohere-ranker"
+    )
 
 if __name__ == '__main__':
     main()
