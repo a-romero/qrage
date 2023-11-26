@@ -19,7 +19,7 @@ def embed(source: [str],
     :param index_name: The name of the index to use in the Weaviate Document Store.
     :param recreate_index: Flag to recreate index.
     :param batch_size: Parallelism of document processing.
-    :param model: Embedding model to use. Options are: sentence-transformer, ada.
+    :param model: Embedding model to use. Options are: sentence-transformer, ada, embed.
     :param dim: Number of vector dimensions for the embeddings.
     :param language: Language of the text.
     """
@@ -84,13 +84,19 @@ def embed(source: [str],
                                         api_key=os.getenv('OPENAI_API_KEY'),
                                         top_k=20,
                                         max_seq_len=8191
-                                        )
+        )
+    elif model=='embed':
+        embedding_retriever = EmbeddingRetriever(document_store=document_store,
+                                        embedding_model="embed-multilingual-v2.0",
+                                        api_key=os.getenv('COHERE_API_KEY'),
+                                        top_k=20
+        )
     else:
         embedding_retriever = EmbeddingRetriever(document_store = document_store,
                                         embedding_model="sentence-transformers/multi-qa-mpnet-base-dot-v1",
                                         model_format="sentence_transformers",
                                         top_k=20
-                                        )   
+        )   
 
     print("Retriever: ", embedding_retriever)
 
