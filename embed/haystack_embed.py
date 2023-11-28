@@ -4,7 +4,6 @@ from haystack import Pipeline
 from haystack.document_stores import WeaviateDocumentStore
 from haystack.nodes import EmbeddingRetriever, MarkdownConverter, PreProcessor, FileTypeClassifier, TextConverter, PDFToTextConverter, DocxToTextConverter
 
-
 def embed(source: [str],
           index_name: str,
           recreate_index: bool=False,
