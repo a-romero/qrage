@@ -1,0 +1,80 @@
+{
+    "os": "Linux-6.1.62-1-MANJARO-x86_64-with-glibc2.38",
+    "python": "3.11.5",
+    "heartbeatAt": "2023-11-28T17:10:12.063565",
+    "startedAt": "2023-11-28T17:10:11.237627",
+    "docker": null,
+    "cuda": null,
+    "args": [],
+    "state": "running",
+    "program": "/home/alberto/lab/qentropy_projects/qrage/app.py",
+    "codePathLocal": "app.py",
+    "codePath": "app.py",
+    "git": {
+        "remote": "https://github.com/a-romero/qrage.git",
+        "commit": "625dfa0a169d84dcd3a5a716a3dc894a7fb0b6c5"
+    },
+    "email": "alberto@onepoint62.com",
+    "root": "/home/alberto/lab/qentropy_projects/qrage",
+    "host": "sun",
+    "username": "alberto",
+    "executable": "/home/alberto/lab/.venv/bin/python",
+    "cpu_count": 4,
+    "cpu_count_logical": 8,
+    "cpu_freq": {
+        "current": 1327.6927500000002,
+        "min": 400.0,
+        "max": 4000.0
+    },
+    "cpu_freq_per_core": [
+        {
+            "current": 1500.751,
+            "min": 400.0,
+            "max": 4000.0
+        },
+        {
+            "current": 1500.955,
+            "min": 400.0,
+            "max": 4000.0
+        },
+        {
+            "current": 1512.457,
+            "min": 400.0,
+            "max": 4000.0
+        },
+        {
+            "current": 1514.712,
+            "min": 400.0,
+            "max": 4000.0
+        },
+        {
+            "current": 1500.932,
+            "min": 400.0,
+            "max": 4000.0
+        },
+        {
+            "current": 1524.525,
+            "min": 400.0,
+            "max": 4000.0
+        },
+        {
+            "current": 1501.195,
+            "min": 400.0,
+            "max": 4000.0
+        },
+        {
+            "current": 1605.192,
+            "min": 400.0,
+            "max": 4000.0
+        }
+    ],
+    "disk": {
+        "/": {
+            "total": 452.0486602783203,
+            "used": 357.2879524230957
+        }
+    },
+    "memory": {
+        "total": 15.078022003173828
+    }
+}

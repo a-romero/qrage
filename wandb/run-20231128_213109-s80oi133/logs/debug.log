@@ -1,0 +1,20 @@
+2023-11-28 21:31:09,185 INFO    MainThread:146846 [wandb_setup.py:_flush():76] Current SDK version is 0.16.0
+2023-11-28 21:31:09,185 INFO    MainThread:146846 [wandb_setup.py:_flush():76] Configure stats pid to 146846
+2023-11-28 21:31:09,185 INFO    MainThread:146846 [wandb_setup.py:_flush():76] Loading settings from /home/alberto/.config/wandb/settings
+2023-11-28 21:31:09,186 INFO    MainThread:146846 [wandb_setup.py:_flush():76] Loading settings from /home/alberto/lab/qentropy_projects/qrage/wandb/settings
+2023-11-28 21:31:09,186 INFO    MainThread:146846 [wandb_setup.py:_flush():76] Loading settings from environment variables: {}
+2023-11-28 21:31:09,186 INFO    MainThread:146846 [wandb_setup.py:_flush():76] Applying setup settings: {'_disable_service': False}
+2023-11-28 21:31:09,186 INFO    MainThread:146846 [wandb_setup.py:_flush():76] Inferring run settings from compute environment: {'program_relpath': 'app.py', 'program_abspath': '/home/alberto/lab/qentropy_projects/qrage/app.py', 'program': '/home/alberto/lab/qentropy_projects/qrage/app.py'}
+2023-11-28 21:31:09,186 INFO    MainThread:146846 [wandb_init.py:_log_setup():524] Logging user logs to /home/alberto/lab/qentropy_projects/qrage/wandb/run-20231128_213109-s80oi133/logs/debug.log
+2023-11-28 21:31:09,186 INFO    MainThread:146846 [wandb_init.py:_log_setup():525] Logging internal logs to /home/alberto/lab/qentropy_projects/qrage/wandb/run-20231128_213109-s80oi133/logs/debug-internal.log
+2023-11-28 21:31:09,187 INFO    MainThread:146846 [wandb_init.py:init():564] calling init triggers
+2023-11-28 21:31:09,187 INFO    MainThread:146846 [wandb_init.py:init():571] wandb.init called with sweep_config: {}
+config: {}
+2023-11-28 21:31:09,187 INFO    MainThread:146846 [wandb_init.py:init():609] wandb.init() called when a run is still active
+2023-11-28 21:31:23,607 INFO    MainThread:146846 [wandb_run.py:_finish():1962] finishing run qentropy/qrage/q5ak1wl4
+2023-11-28 21:31:23,607 INFO    MainThread:146846 [wandb_run.py:_atexit_cleanup():2202] got exitcode: 0
+2023-11-28 21:31:23,607 INFO    MainThread:146846 [wandb_run.py:_restore():2185] restore
+2023-11-28 21:31:23,608 INFO    MainThread:146846 [wandb_run.py:_restore():2191] restore done
+2023-11-28 21:31:32,413 INFO    MainThread:146846 [wandb_run.py:_footer_history_summary_info():3760] rendering history
+2023-11-28 21:31:32,413 INFO    MainThread:146846 [wandb_run.py:_footer_history_summary_info():3792] rendering summary
+2023-11-28 21:31:32,416 INFO    MainThread:146846 [wandb_run.py:_footer_sync_info():3719] logging synced files

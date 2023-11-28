@@ -1,4 +1,5 @@
 import os
+import wandb
 from generate.haystack_prompt import createPromptNode
 from haystack import Pipeline
 from haystack.document_stores import WeaviateDocumentStore, InMemoryDocumentStore
@@ -6,6 +7,7 @@ from haystack.nodes import AnswerParser, EmbeddingRetriever, PromptTemplate, Top
 from haystack.nodes.ranker import CohereRanker, LostInTheMiddleRanker
 from haystack.nodes.retriever.web import WebRetriever
 from haystack.utils import print_answers
+from wandb.integration.cohere import autolog
 
 
 def generateWithVectorDB(query: str,
@@ -17,6 +19,7 @@ def generateWithVectorDB(query: str,
           top_k: int=5,
           reranker: str="none",
           max_length: int=600,
+          debug: bool=False,
           draw_pipeline: bool=False):
     """
     Processes query from a provided index and a combination of configurable retrieval strategies
@@ -29,8 +32,11 @@ def generateWithVectorDB(query: str,
     :param top_k: The top_k parameter defines the number of tokens with the highest probabilities the next token is selected from.
     :param reranker: Whether to use a ReRanker or not. Options are: none, cohere-ranker.
     :param max_length: Length of the response in tokens.
+    :param debug: Enable debug on the pipeline.
     :param draw_pipeline: Whether to export a png of the pipeline to the ./diagrams directory.
     """
+
+    autolog({"project":"qrage", "job_type": "introduction"})
 
     document_store = WeaviateDocumentStore(host='http://localhost',
                                         port=8080,
@@ -82,11 +88,14 @@ def generateWithVectorDB(query: str,
         
     rag_pipeline.add_node(component=prompt_node, name="PromptNode", inputs=[prompt_input])
 
-    response = rag_pipeline.run(query = query, params={"Retriever" : {"top_k": top_k}})
+    response = rag_pipeline.run(query = query, params={"Retriever" : {"top_k": top_k}, "debug": debug})
+    
     print("Answer: ", response)
 
     if draw_pipeline:
         rag_pipeline.draw("diagrams/generative_pipeline.png")
+    
+    wandb.finish()
 
 
 def generateWithWebsite(query: str,
@@ -96,6 +105,7 @@ def generateWithWebsite(query: str,
                         litm_ranker: bool=True,
                         word_count_threshold: int=1024,
                         max_length: int=600,
+                        debug: bool=False,
                         draw_pipeline: bool=False):
     """
     Processes query from a provided website and a combination of configurable retrieval strategies
@@ -107,6 +117,7 @@ def generateWithWebsite(query: str,
     :param litm_ranker: Whether to use a Lost In the Middle Ranker or not.
     :param word_count_threshold: The maximum total number of words across all documents selected by the ranger.
     :param max_length: Length of the response in tokens.
+    :param debug: Enable debug on the pipeline.
     :param draw_pipeline: Whether to export a png of the pipeline to the ./diagrams directory.
     """
 
@@ -143,7 +154,7 @@ def generateWithWebsite(query: str,
 
     rag_pipeline.add_node(component=prompt_node, name="PromptNode", inputs=[prompt_input])
     
-    response = rag_pipeline.run(query = query)
+    response = rag_pipeline.run(query = query, params={"debug": debug})
     print("Answer: ", response)
 
     if draw_pipeline:

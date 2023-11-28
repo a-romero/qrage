@@ -1,0 +1,12 @@
+You seem to be using sentence-transformers/multi-qa-mpnet-base-dot-v1 model with the cosine function instead of the recommended dot_product. This can be set when initializing the DocumentStore
+Batches: 100%|█████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 1/1 [00:00<00:00, 22.85it/s]
+Retriever:  <haystack.nodes.retriever.dense.EmbeddingRetriever object at 0x7fa00e27aa50>
+Prompt:  <haystack.nodes.prompt.prompt_node.PromptNode object at 0x7fa00ec85dd0>
+Ranker:  <haystack.nodes.ranker.cohere.CohereRanker object at 0x7fa00e27ae90>
+Traceback (most recent call last):
+  File "/home/alberto/lab/qentropy_projects/qrage/app.py", line 28, in <module>
+    main()
+  File "/home/alberto/lab/qentropy_projects/qrage/app.py", line 14, in main
+    haystack_generate.generateWithVectorDB("How would Revolut be impacted by AIG going bankrupt?",
+  File "/home/alberto/lab/qentropy_projects/qrage/generate/haystack_generate.py", line 90, in generateWithVectorDB
+    pprint("Answer: ", response)
