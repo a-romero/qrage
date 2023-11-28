@@ -1,6 +1,5 @@
 import os
 from haystack import Pipeline
-from haystack.pipelines import ExtractiveQAPipeline
 from haystack.document_stores import WeaviateDocumentStore
 from haystack.nodes import AnswerParser, EmbeddingRetriever, PromptNode, PromptTemplate, CohereRanker
 from haystack.utils import print_answers
@@ -10,9 +9,11 @@ def query(query: str,
           index_name: str,
           embedding_model: str="sentence-transformer",
           dim: int=768,
+          similarity: str="cosine",
           generative_model: str="gpt-4",
           top_k: int=5,
           reranker: str="none",
+          max_length: int=600,
           draw_pipeline: bool=False):
     """
     Processes query from a provided index and a combination of configurable retrieval strategies
@@ -20,16 +21,19 @@ def query(query: str,
     :param index_name: The name of the index to use in the Weaviate Document Store.
     :param model: Embedding model to use. Options are: sentence-transformer, ada.
     :param dim: Number of vector dimensions for the embeddings.
+    :param similarity: Similarity function for vector search.
     :param generative_model: Generative model to use. Options are: mistral, gpt-3.5-turbo, gpt-4, gpt-4-turbo, command.
     :param top_k: The top_k parameter defines the number of tokens with the highest probabilities the next token is selected from.
     :param reranker: Whether to use a ReRanker or not. Options are: none, cohere-ranker.
+    :param max_length: Length of the response in tokens.
     :param draw_pipeline: Whether to export a png of the pipeline to the ./diagrams directory.
     """
 
     document_store = WeaviateDocumentStore(host='http://localhost',
                                         port=8080,
                                         embedding_dim=dim,
-                                        index=index_name)
+                                        index=index_name,
+                                        similarity=similarity)
 
      # Choice of retrievers
     embedding_retriever = EmbeddingRetriever(embedding_model="sentence-transformers/multi-qa-mpnet-base-dot-v1")
@@ -62,27 +66,31 @@ def query(query: str,
         prompt_node = PromptNode(model_name_or_path = "mistralai/Mistral-7B-Instruct-v0.1",
                                  api_key = os.getenv('HUGGINGFACEHUB_API_TOKEN'),
                                  default_prompt_template = prompt_template,
-                                 max_length=800
+                                 max_length=max_length
         )
     elif generative_model=='gpt-3.5-turbo':
         prompt_node = PromptNode(model_name_or_path = "gpt-3.5-turbo",
                                 api_key = os.getenv('OPENAI_API_KEY'),
-                                default_prompt_template = prompt_template
+                                default_prompt_template = prompt_template,
+                                max_length=max_length
         )
     elif generative_model=='gpt-4-turbo':
         prompt_node = PromptNode(model_name_or_path = "gpt-4-1106-preview",
                                 api_key = os.getenv('OPENAI_API_KEY'),
-                                default_prompt_template = prompt_template
+                                default_prompt_template = prompt_template,
+                                max_length=max_length
         )
     elif generative_model=='command':
         prompt_node = PromptNode(model_name_or_path = "command",
                                 api_key = os.getenv('COHERE_API_KEY'),
-                                default_prompt_template = prompt_template
+                                default_prompt_template = prompt_template,
+                                max_length=max_length
         )
     else:
         prompt_node = PromptNode(model_name_or_path = "gpt-4",
                                 api_key = os.getenv('OPENAI_API_KEY'),
-                                default_prompt_template = prompt_template
+                                default_prompt_template = prompt_template,
+                                max_length=max_length
         )
 
 

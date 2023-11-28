@@ -12,7 +12,8 @@ def main():
     )
     haystack_query.query("How would Revolut be impacted by AIG going bankrupt?",
                          index_name=index_name,
-                         reranker="cohere-ranker"
+                         reranker="cohere-ranker",
+                         max_length=800
     )
 
 if __name__ == '__main__':
