@@ -1,8 +1,9 @@
 from embed import haystack_embed
-from query import haystack_query
+from generate import haystack_generate
 
 path_doc = ["data"]
 index_name = "revolut"
+domains = ["crunchbase.com"]
 
 def main():
 
@@ -10,10 +11,15 @@ def main():
                          index_name=index_name,
                          recreate_index=True
     )
-    haystack_query.query("How would Revolut be impacted by AIG going bankrupt?",
+    haystack_generate.generateWithVectorDB("How would Revolut be impacted by AIG going bankrupt?",
                          index_name=index_name,
                          reranker="cohere-ranker",
                          max_length=800
+    )
+    haystack_generate.generateWithWebsite("Write a brief introduction of Revolut's CEO",
+                                          domains=domains,
+                                          litm_ranker=True,
+                                          max_length=800
     )
 
 if __name__ == '__main__':
