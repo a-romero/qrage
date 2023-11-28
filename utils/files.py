@@ -1,4 +1,5 @@
 import os
+import boto3
 import requests
 import zipfile
 import tarfile
@@ -17,6 +18,26 @@ def process_paths(path_array):
             with open(local_path, 'wb') as f:
                 for chunk in r.iter_content(chunk_size=8192):
                     f.write(chunk)
+
+        # Decompress if necessary and remove the compressed file
+        if zipfile.is_zipfile(local_path):
+            with zipfile.ZipFile(local_path, 'r') as zip_ref:
+                zip_ref.extractall(target_dir)
+            os.remove(local_path)
+        elif tarfile.is_tarfile(local_path):
+            with tarfile.open(local_path, 'r') as tar_ref:
+                tar_ref.extractall(target_dir)
+            os.remove(local_path)
+
+    def download_and_extract_s3_file(s3_url, target_dir):
+        # Assuming s3_url format is "s3://bucket/key"
+        bucket, key = s3_url.replace("s3://", "").split("/", 1)
+        filename = key.split('/')[-1]
+        local_path = os.path.join(target_dir, filename)
+
+        # Download file from S3
+        s3_client = boto3.client('s3')
+        s3_client.download_file(bucket, key, local_path)
 
         # Decompress if necessary and remove the compressed file
         if zipfile.is_zipfile(local_path):
@@ -47,6 +68,13 @@ def process_paths(path_array):
             os.makedirs(http_target_dir, exist_ok=True)
             download_and_extract_http_file(path, http_target_dir)
             process_path(http_target_dir)
+        elif path.startswith("s3://"):
+            # Handle HTTP URL
+            date_str = datetime.datetime.now().strftime("%Y-%m-%dT%H:%M:%S")
+            s3_target_dir = f"./data/s3_{date_str}"
+            os.makedirs(s3_target_dir, exist_ok=True)
+            download_and_extract_s3_file(path, s3_target_dir)
+            process_path(s3_target_dir)
         else:
             # Handle regular file or directory path
             process_path(path)
