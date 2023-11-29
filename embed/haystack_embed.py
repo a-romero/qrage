@@ -1,4 +1,5 @@
 import os
+import logging
 from utils import files
 from haystack import Pipeline
 from haystack.document_stores import WeaviateDocumentStore
@@ -58,6 +59,9 @@ def embed(source: [str],
         if draw_pipeline:
             indexing_pipeline.draw("diagrams/indexing_pipeline.png")
 
+
+    logging.basicConfig(format="%(levelname)s - %(name)s -  %(message)s", level=logging.WARNING)
+    logging.getLogger("haystack").setLevel(logging.INFO)
 
     document_store = WeaviateDocumentStore(host='http://localhost',
                                           port=8080,
