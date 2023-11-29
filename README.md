@@ -1,5 +1,9 @@
 # qRage - Modular framework for building Retrieval Augmented Generation (RAG) pipelines
 
+<p align="center">
+    <img src="images/qRage.png" width='600'>
+</p>
+
 ## Introduction
 This framework provides flexible Retrieval Augmented Generation (RAG) by integrating with frameworks like Haystack and LlamaIndex. It uses parametrized configurations to leverage various transformer and LLM models. Key features include:
 
@@ -98,6 +102,7 @@ haystack_generate.generateWithVectorDB(query="How would Revolut be impacted by A
                     dim=768,
                     generative_model="gpt-4",
                     top_k=5,
+                    gpl=False,
                     draw_pipeline=False
                     )
 ```
@@ -127,3 +132,7 @@ Answer:  {'answers': [<Answer {'answer': 'Nikolay Storonsky is the Founder and C
 /usr/lib/python3.11/tempfile.py:895: ResourceWarning: Implicitly cleaning up <TemporaryDirectory '/tmp/tmp8g9evya6'>
   _warnings.warn(warn_message, ResourceWarning)
 ```
+
+### ToDo
+- Support for json and csv docs
+- Support for prompt templating

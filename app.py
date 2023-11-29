@@ -15,14 +15,15 @@ def main():
                          index_name=index_name,
                          generative_model="gpt-4",
                          reranker="cohere-ranker",
+                         gpl=True,
                          max_length=800
     )
-    haystack_generate.generateWithWebsite("Write a brief introduction of Revolut's CEO",
-                                          domains=domains,
-                                          generative_model="gpt-4",
-                                          litm_ranker=True,
-                                          max_length=800
-    )
+    #haystack_generate.generateWithWebsite("Write a brief introduction of Revolut's CEO",
+    #                                      domains=domains,
+    #                                      generative_model="gpt-4",
+    #                                      litm_ranker=True,
+    #                                      max_length=800
+    #)
 
 if __name__ == '__main__':
     main()
