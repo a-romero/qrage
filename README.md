@@ -81,6 +81,7 @@ haystack_embed.embed(source="./data",
                     batch_size=5,
                     model="sentence-transformer",
                     dim=768,
+                    gpl=False,
                     language="en"
                     )
 ```
@@ -102,7 +103,6 @@ haystack_generate.generateWithVectorDB(query="How would Revolut be impacted by A
                     dim=768,
                     generative_model="gpt-4",
                     top_k=5,
-                    gpl=False,
                     draw_pipeline=False
                     )
 ```

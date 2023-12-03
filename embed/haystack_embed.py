@@ -1,8 +1,11 @@
 import os
 import logging
+import torch
 from utils import files
 from haystack import Pipeline
 from haystack.document_stores import WeaviateDocumentStore
+from haystack.nodes.question_generator import QuestionGenerator
+from haystack.nodes.label_generator import PseudoLabelGenerator
 from haystack.nodes import EmbeddingRetriever, MarkdownConverter, PreProcessor, FileTypeClassifier, TextConverter, PDFToTextConverter, DocxToTextConverter
 
 def embed(source: [str],
@@ -11,6 +14,8 @@ def embed(source: [str],
           batch_size: int=5,
           model: str="sentence-transformer",
           dim: int=768,
+          top_k: int=10,
+          gpl: bool=False,
           language: str="en"):
     """
     Processes embeddings from a provided array of file/directory paths
@@ -21,6 +26,8 @@ def embed(source: [str],
     :param batch_size: Parallelism of document processing.
     :param model: Embedding model to use. Options are: sentence-transformer, ada, embed.
     :param dim: Number of vector dimensions for the embeddings.
+    :param top_k: The top_k parameter defines the number of tokens with the highest probabilities the next token is selected from.
+    :param gpl: Enable Generative Pseudo Labeling for domain adaptation through synthetic Q/A.
     :param language: Language of the text.
     """
 
@@ -40,6 +47,15 @@ def embed(source: [str],
         indexing_pipeline.add_node(component=md_converter, name="MarkdownConverter", inputs=["FileTypeClassifier.output_3"])
         indexing_pipeline.add_node(component=docx_converter, name="DocxConverter", inputs=["FileTypeClassifier.output_4"])
 
+        preprocessor = PreProcessor(clean_empty_lines=True,
+                                clean_whitespace=False,
+                                clean_header_footer=False,
+                                split_by="word",
+                                split_length=500,
+                                split_respect_sentence_boundary=True,
+                                language=language,
+        )
+
         indexing_pipeline.add_node(component=preprocessor, name="PreProcessor", inputs=["TextConverter", 
                                                                                         "PDFToTextConverter", 
                                                                                         "MarkdownConverter", 
@@ -54,6 +70,23 @@ def embed(source: [str],
             print(file)
 
         indexing_pipeline.run(file_paths=file_paths)
+
+        if gpl:
+            if torch.cuda.is_available():
+                questions_producer = QuestionGenerator(
+                    model_name_or_path="doc2query/msmarco-t5-base-v1",
+                    max_length=64,
+                    split_length=128,
+                    batch_size=32,
+                    num_queries_per_doc=3,
+                )
+                plg = PseudoLabelGenerator(question_producer=questions_producer, retriever=embedding_retriever, max_questions_per_document=10, top_k=top_k)
+                output, pipe_id = plg.run(documents=document_store.get_all_documents())
+                output["gpl_labels"][0]
+                embedding_retriever.train(output["gpl_labels"])
+            else:
+                print("Skipping Generative Pseudo Labeling as no GPU detected")
+
         print("Finished processing files\n")
 
         if draw_pipeline:
@@ -70,35 +103,26 @@ def embed(source: [str],
                                           batch_size=batch_size,
                                           recreate_index=recreate_index)
 
-    preprocessor = PreProcessor(clean_empty_lines=True,
-                                clean_whitespace=False,
-                                clean_header_footer=False,
-                                split_by="word",
-                                split_length=500,
-                                split_respect_sentence_boundary=True,
-                                language=language,
-    )
-
     # Choice of retrievers
     embedding_retriever = EmbeddingRetriever(embedding_model="sentence-transformers/multi-qa-mpnet-base-dot-v1")
     if model=='ada':
         embedding_retriever = EmbeddingRetriever(document_store=document_store,
                                         embedding_model="text-embedding-ada-002",
                                         api_key=os.getenv('OPENAI_API_KEY'),
-                                        top_k=20,
+                                        top_k=top_k,
                                         max_seq_len=8191
         )
     elif model=='embed':
         embedding_retriever = EmbeddingRetriever(document_store=document_store,
                                         embedding_model="embed-multilingual-v2.0",
                                         api_key=os.getenv('COHERE_API_KEY'),
-                                        top_k=20
+                                        top_k=top_k
         )
     else:
         embedding_retriever = EmbeddingRetriever(document_store = document_store,
                                         embedding_model="sentence-transformers/multi-qa-mpnet-base-dot-v1",
                                         model_format="sentence_transformers",
-                                        top_k=20
+                                        top_k=top_k
         )   
 
     print("Retriever: ", embedding_retriever)
