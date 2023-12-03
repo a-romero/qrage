@@ -1,7 +1,8 @@
 import os
 import logging
 import wandb
-from generate.haystack_prompt import createPromptNode
+from generate.prompt.prompts import find_prompt_by_id
+from generate.prompt.haystack_prompt import createPromptNode
 from haystack import Pipeline
 from haystack.document_stores import WeaviateDocumentStore, InMemoryDocumentStore
 from haystack.nodes import AnswerParser, EmbeddingRetriever, PromptTemplate, TopPSampler
@@ -10,22 +11,25 @@ from haystack.nodes.retriever.web import WebRetriever
 from haystack.utils import print_answers
 from wandb.integration.cohere import autolog
 
+PROMPTS_TEMPLATE = './generate/prompt/templates/prompts.csv'
 
 def generateWithVectorDB(query: str,
-          index_name: str,
-          embedding_model: str="sentence-transformer",
-          dim: int=768,
-          similarity: str="cosine",
-          generative_model: str="gpt-4",
-          top_k: int=5,
-          reranker: str="none",
-          max_length: int=600,
-          debug: bool=False,
-          draw_pipeline: bool=False):
+                         prompt_id: str,
+                         index_name: str,
+                         embedding_model: str="sentence-transformer",
+                         dim: int=768,
+                         similarity: str="cosine",
+                         generative_model: str="gpt-4",
+                         top_k: int=5,
+                         reranker: str="none",
+                         max_length: int=600,
+                         debug: bool=False,
+                         draw_pipeline: bool=False):
     """
     Processes query from a provided index and a combination of configurable retrieval strategies
 
     :param query: The input to pass on to the model to use with the prompt template.
+    :param prompt_id: The id of the prompt to be used as per the generate/prompt/templates/prompts.csv
     :param model: Embedding model to use. Options are: sentence-transformer, ada.
     :param dim: Number of vector dimensions for the embeddings.
     :param similarity: Similarity function for vector search.
@@ -68,12 +72,19 @@ def generateWithVectorDB(query: str,
 
     rag_pipeline = Pipeline()
 
-    prompt_template = PromptTemplate(prompt = """"Given the provided Documents, answer the Query.\n
-                                                Query: {query}\n
-                                                Documents: {join(documents)}
-                                                Answer: 
-                                            """,
-                                            output_parser=AnswerParser())
+    prompt = find_prompt_by_id(PROMPTS_TEMPLATE, prompt_id)
+    if prompt:
+       print("Using prompt: ", prompt)
+    else:
+        print("No prompt found for provided id, using default")
+        prompt = """"Given the provided Documents, answer the Query.\n
+                    Query: {query}\n
+                    Documents: {join(documents)}
+                    Answer: 
+                """
+         
+    prompt_template = PromptTemplate(prompt = prompt,
+                                     output_parser=AnswerParser())
     
     prompt_node=createPromptNode(generative_model, prompt_template ,max_length)
     print("Prompt: ", prompt_node)
@@ -103,6 +114,7 @@ def generateWithVectorDB(query: str,
 
 
 def generateWithWebsite(query: str,
+                        prompt_id: str,
                         domains: [str]=["google.com"],
                         generative_model: str="gpt-4",
                         top_k: int=5,
@@ -115,6 +127,7 @@ def generateWithWebsite(query: str,
     Processes query from a provided website and a combination of configurable retrieval strategies
 
     :param query: The input to pass on to the model to use with the prompt template.
+    :param prompt_id: The id of the prompt to be used as per the generate/prompt/templates/prompts.csv
     :param domains: List of domains to search on.
     :param generative_model: Generative model to use. Options are: mistral, gpt-3.5-turbo, gpt-4, gpt-4-turbo, command.
     :param top_k: Number of top search results to be retrieved.
@@ -139,12 +152,19 @@ def generateWithWebsite(query: str,
         cache_document_store=InMemoryDocumentStore(),
     )
     
-    prompt_template = PromptTemplate(prompt = """"Given the provided Documents, answer the Query.\n
-                                                Query: {query}\n
-                                                Documents: {join(documents)}
-                                                Answer: 
-                                            """,
-                                            output_parser=AnswerParser())
+    prompt = find_prompt_by_id(PROMPTS_TEMPLATE, prompt_id)
+    if prompt:
+       print("Using prompt: ", prompt)
+    else:
+        print("No prompt found for provided id, using default")
+        prompt = """"Given the provided Documents, answer the Query.\n
+                    Query: {query}\n
+                    Documents: {join(documents)}
+                    Answer: 
+                """
+        
+    prompt_template = PromptTemplate(prompt = prompt,
+                                     output_parser=AnswerParser())
     
     prompt_node=createPromptNode(generative_model, prompt_template ,max_length)
     print("Prompt: ", prompt_node)

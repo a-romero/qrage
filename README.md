@@ -135,4 +135,4 @@ Answer:  {'answers': [<Answer {'answer': 'Nikolay Storonsky is the Founder and C
 
 ### ToDo
 - Support for json and csv docs
-- Support for prompt templating
+- Process file metadata and use it with the retriever
