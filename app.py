@@ -16,6 +16,7 @@ def main():
                          preprocess=True,
                          recreate_index=True
     )
+
     haystack_generate.generateWithVectorDB("How would Revolut be impacted by AIG going bankrupt?",
                                            prompt_id="Business Analyst",
                                            index_name=index_name,
@@ -31,7 +32,6 @@ def main():
                                           litm_ranker=True,
                                           max_length=800
     )
-    
     
     llamaindex_embed.kg_index(source=path,
                               space_name=index_name)

@@ -95,7 +95,7 @@ The generative models supported are:
 - (OpenAI) "gpt-4-turbo" => "gpt-4-1106-preview"
 - (Cohere) "command"
 
-Using a VectorDB RAG (with Weaviate):
+#### Using a VectorDB RAG (with Weaviate):
 ```python
 haystack_generate.generateWithVectorDB(query="How would Revolut be impacted by AIG going bankrupt?", 
                     index_name="test",
@@ -132,6 +132,48 @@ Answer:  {'answers': [<Answer {'answer': 'Nikolay Storonsky is the Founder and C
 /usr/lib/python3.11/tempfile.py:895: ResourceWarning: Implicitly cleaning up <TemporaryDirectory '/tmp/tmp8g9evya6'>
   _warnings.warn(warn_message, ResourceWarning)
 ```
+
+#### Using a Custom Hybrid Retriever that leverages both VectorDB embeddings and a Knowledge Graph
+```python
+llamaindex_embed.kg_index(source=path,
+                           space_name=index_name
+                        )
+```
+Response:
+```
+(Revolut, is making money accessible by, driving borderless finance in Latin America)
+(Revolut, says Latin America is, key region for growth)
+(Revolut, to boost crypto team by, 20% despite US exit)
+(Revolut CEO, on growing a multi-currency card into, financial super app)
+(Revolut, self-shutters US crypto business as, Coinbase moves to dismiss SEC suit)
+(Revolut and Elon Musk's X, can become, everything apps)
+(Revolut, to stop crypto services for, US customers)
+(Revolut, launches instant card transfers to, over 80 countries)
+(Revolut and Game4Ukraine, to raise funds for, reconstruction of Ukrainian school)
+(Revolut, starts phasing in, car insurance offering)
+(Revolut, sells, AIG car insurance)
+(Revolut, may be closer to launching, mortgage loans)
+(Revolut, launches, joint accounts in the UK)
+(Revolut, demands urgent review of, hidden international fees)
+(Revolut, moves closer to super-app status by adding, tour and travel experience bookings)
+(Revolut, expands travel offering with, in-app marketplace)
+...
+```
+
+```python
+retrieve_pipeline.get_response_with_VKBRetriever("How would Revolut be impacted by AIG going bankrupt?",
+                                                generative_model="gpt-4",
+                                                index_name=index_name,
+                                                space_name=index_name
+                                                )
+```
+Response:
+```
+Knowledge Graph index:  <llama_index.indices.knowledge_graph.base.KnowledgeGraphIndex object at 0x7f67d0680550>
+WARNING - llama_index.service_context -  chunk_size_limit is deprecated, please specify chunk_size instead
+If AIG were to go bankrupt, Revolut could be impacted as it sells AIG car insurance. This could potentially disrupt their insurance services and they might need to find a new insurance provider. However, the specific impact would depend on the details of their agreement with AIG and their contingency plans for such events.
+```
+
 
 ### ToDo
 - Support for json and csv docs
