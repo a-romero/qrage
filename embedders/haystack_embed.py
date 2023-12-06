@@ -70,7 +70,7 @@ def embed(source: [str],
             print(file)
 
         indexing_pipeline.run(file_paths=file_paths)
-
+        
         if gpl:
             if torch.cuda.is_available():
                 questions_producer = QuestionGenerator(
@@ -143,4 +143,3 @@ def embed(source: [str],
         embed_paths(docx_files)
 
     print("#####################\nEmbeddings Completed.")
-

@@ -1,8 +1,8 @@
 import os
 import logging
 import wandb
-from generate.prompt.prompts import find_prompt_by_id
-from generate.prompt.haystack_prompt import createPromptNode
+from components.generators.prompts.prompts import find_prompt_by_id
+from components.generators.prompts.haystack_prompt import createPromptNode
 from haystack import Pipeline
 from haystack.document_stores import WeaviateDocumentStore, InMemoryDocumentStore
 from haystack.nodes import AnswerParser, EmbeddingRetriever, PromptTemplate, TopPSampler
@@ -11,7 +11,7 @@ from haystack.nodes.retriever.web import WebRetriever
 from haystack.utils import print_answers
 from wandb.integration.cohere import autolog
 
-PROMPTS_TEMPLATE = './generate/prompt/templates/prompts.csv'
+PROMPTS_TEMPLATE = './components/generators/prompts/templates/prompts.csv'
 
 def generateWithVectorDB(query: str,
                          prompt_id: str,

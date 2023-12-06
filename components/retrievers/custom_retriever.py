@@ -1,19 +1,13 @@
 from typing import List
-from llama_index.storage.storage_context import StorageContext
-from llama_index.graph_stores import NebulaGraphStore
-from llama_index.llms import OpenAI
-from llama_index import download_loader
 # import QueryBundle
 from llama_index import QueryBundle
 # import NodeWithScore
 from llama_index.schema import NodeWithScore
 # Retrievers
 from llama_index.retrievers import BaseRetriever, VectorIndexRetriever, KGTableRetriever
-from llama_index import get_response_synthesizer
-from llama_index.query_engine import RetrieverQueryEngine
 
-class qEntRetriever(BaseRetriever):
-    """Custom retriever that performs both Vector search and Knowledge Graph search"""
+class VKGRetriever(BaseRetriever):
+    """Retriever that performs both Vector and Knowledge Graph search"""
 
     def __init__(
         self,

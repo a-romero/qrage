@@ -8,3 +8,4 @@ dist
 build
 scratch
 wandb
+storage_graph
