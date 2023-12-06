@@ -1,6 +1,6 @@
 # qRage - Modular framework for building Retrieval Augmented Generation (RAG) pipelines
 
-<p align="center">
+<p align="center"> 
     <img src="images/qRage.png" width='1024'>
 </p>
 
