@@ -9,3 +9,5 @@ build
 scratch
 wandb
 storage_graph
+graphdb/nebulagraph/*/logs
+graphdb/nebulagraph/*/data

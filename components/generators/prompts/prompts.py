@@ -1,6 +1,9 @@
 import csv
 
-def find_prompt_by_id(csv_file, target_id):
+PROMPTS_TEMPLATE = './components/generators/prompts/templates/prompts.csv'
+
+def find_prompt_by_id(target_id):
+    csv_file = PROMPTS_TEMPLATE
     with open(csv_file, newline='') as file:
         reader = csv.reader(file)
         next(reader)  # Skip the header row if there is one
