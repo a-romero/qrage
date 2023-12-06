@@ -11,8 +11,6 @@ from haystack.nodes.retriever.web import WebRetriever
 from haystack.utils import print_answers
 from wandb.integration.cohere import autolog
 
-PROMPTS_TEMPLATE = './components/generators/prompts/templates/prompts.csv'
-
 def generateWithVectorDB(query: str,
                          prompt_id: str,
                          index_name: str,
@@ -72,17 +70,16 @@ def generateWithVectorDB(query: str,
 
     rag_pipeline = Pipeline()
 
-    prompt = find_prompt_by_id(PROMPTS_TEMPLATE, prompt_id)
-    if prompt:
-       print("Using prompt: ", prompt)
-    else:
+    prompt = find_prompt_by_id(prompt_id)
+    if not prompt:
         print("No prompt found for provided id, using default")
         prompt = """"Given the provided Documents, answer the Query.\n
                     Query: {query}\n
                     Documents: {join(documents)}
                     Answer: 
-                """
-         
+                """    
+    print("Using prompt: ", prompt)    
+    
     prompt_template = PromptTemplate(prompt = prompt,
                                      output_parser=AnswerParser())
     
@@ -152,17 +149,15 @@ def generateWithWebsite(query: str,
         cache_document_store=InMemoryDocumentStore(),
     )
     
-    prompt = find_prompt_by_id(PROMPTS_TEMPLATE, prompt_id)
-    if prompt:
-       print("Using prompt: ", prompt)
-    else:
+    prompt = find_prompt_by_id(prompt_id)
+    if not prompt:
         print("No prompt found for provided id, using default")
         prompt = """"Given the provided Documents, answer the Query.\n
                     Query: {query}\n
                     Documents: {join(documents)}
                     Answer: 
                 """
-        
+    print("Using prompt: ", prompt)    
     prompt_template = PromptTemplate(prompt = prompt,
                                      output_parser=AnswerParser())
     

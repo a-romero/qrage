@@ -37,6 +37,7 @@ def main():
                               space_name=index_name)
 
     retrieve_pipeline.get_response_with_VKBRetriever("How would Revolut be impacted by AIG going bankrupt?",
+                                                     prompt_id="Business Analyst",
                                                      generative_model="gpt-4",
                                                      index_name=index_name,
                                                      space_name=index_name

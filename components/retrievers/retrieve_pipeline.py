@@ -1,6 +1,7 @@
 import string
 from components.retrievers import custom_retriever
 from components.generators.models import Model
+from components.generators.prompts.prompts import find_prompt_by_id
 
 from llama_index import (
     ServiceContext,
@@ -8,26 +9,25 @@ from llama_index import (
 )
 import weaviate
 
-from llama_index import load_index_from_storage
+from llama_index import PromptHelper, get_response_synthesizer, load_index_from_storage
 from llama_index.storage.storage_context import StorageContext
 from llama_index.graph_stores import NebulaGraphStore
 from llama_index.vector_stores import WeaviateVectorStore
-
-# Retrievers
 from llama_index.retrievers import BaseRetriever, VectorIndexRetriever, KGTableRetriever
-from llama_index import get_response_synthesizer
 from llama_index.query_engine import RetrieverQueryEngine
+from llama_index.prompts import PromptTemplate
 
 
 def get_response_with_VKBRetriever(
-        user_question: str,
+        query: str,
         index_name: str,
         space_name: str,
+        prompt_id: str,
         generative_model: str,
         temperature: int=0
 ):
     """
-    :param user_question: user question
+    :param query: user question
     :param index_name: index name
     :param space_name: space name
     :param generative_model: model name
@@ -57,6 +57,7 @@ def get_response_with_VKBRetriever(
     model = Model(generative_model=generative_model, temperature=temperature)
     llm = model.baseModel(model.model_name)
     
+    prompt_helper = PromptHelper()
     service_context = ServiceContext.from_defaults(llm=llm, chunk_size_limit=512)
     kg_index = load_index_from_storage(storage_context=graph_storage_context,
                                        service_context=service_context,
@@ -83,6 +84,21 @@ def get_response_with_VKBRetriever(
         response_synthesizer=response_synthesizer,
     )
 
-    response = custom_query_engine.query(user_question)
+    template = find_prompt_by_id(prompt_id)
+    documents = "Provided in the context"
+    if template:
+       template = template.replace("{join(documents)}", documents)
+    else:
+        print("No prompt found for provided id, using default")
+        template = """I want you to act as a Business Analyst. Given the provided Documents, answer the Query.\n
+                    Query: {query}\n
+                    Documents: {documents}
+                    Answer: 
+                """
+    prompt_template = PromptTemplate(template)
+    prompt = prompt_template.format(query=query, documents=documents)
+    print("Using prompt: ", template)
+
+    response = custom_query_engine.query(prompt)
 
     print(response)
