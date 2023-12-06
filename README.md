@@ -136,3 +136,7 @@ Answer:  {'answers': [<Answer {'answer': 'Nikolay Storonsky is the Founder and C
 ### ToDo
 - Support for json and csv docs
 - Process file metadata and use it with the retriever
+- LLM validation
+- Structured prompting with Pydantic
+- Support for router fine tuning
+- Implement chain of thought

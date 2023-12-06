@@ -1,4 +1,5 @@
 import os
+from typing import List, Union
 import weaviate
 from weaviate.embedded import EmbeddedOptions
 
@@ -6,7 +7,7 @@ class WeaviateClient:
 
     def __init__(self,
                 url: Union[str, List[str]] = "http://localhost:8080",
-                index: str = "Document",
+                index: str = "Revolut",
                 embedding_size: int = 768,
                 similarity: str = "cosine",
                 index_type: str = "hnsw",
@@ -27,6 +28,6 @@ class WeaviateClient:
             "X-HuggingFace-Api-Key": os.getenv('HUGGINGFACE_API_KEY'),
             "X-OpenAI-Api-Key": os.getenv('OPENAI_API_KEY'),
         },
-        embedded_options=EmbeddedOptions()
+        embedded_options=EmbeddedOptions(),
     )
 

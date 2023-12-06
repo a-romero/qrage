@@ -1,0 +1,75 @@
+Log file created at: 2023/12/04 17:18:59
+Running on machine: 483a41219601
+Running duration (h:mm:ss): 0:00:00
+Log line format: [IWEF]yyyymmdd hh:mm:ss.uuuuuu threadid file:line] msg
+I20231204 17:18:59.045866     1 GraphDaemon.cpp:122] Starting Graph HTTP Service
+I20231204 17:18:59.052134     7 WebService.cpp:124] Web service started on HTTP[19669]
+I20231204 17:18:59.052177     1 GraphDaemon.cpp:136] Number of networking IO threads: 8
+I20231204 17:18:59.052191     1 GraphDaemon.cpp:145] Number of worker threads: 8
+I20231204 17:18:59.059837     1 MetaClient.cpp:80] Create meta client to "metad2":9559
+I20231204 17:18:59.059864     1 MetaClient.cpp:81] root path: /usr/local/nebula, data path size: 0
+I20231204 17:18:59.083374    35 ThriftClientManager-inl.h:67] resolve "metad2":9559 as "172.27.0.4":9559
+I20231204 17:18:59.151607    36 ThriftClientManager-inl.h:67] resolve "metad2":9559 as "172.27.0.4":9559
+I20231204 17:18:59.155418    37 ThriftClientManager-inl.h:67] resolve "metad2":9559 as "172.27.0.4":9559
+I20231204 17:18:59.158195    38 ThriftClientManager-inl.h:67] resolve "metad2":9559 as "172.27.0.4":9559
+I20231204 17:18:59.161743    39 ThriftClientManager-inl.h:67] resolve "metad2":9559 as "172.27.0.4":9559
+I20231204 17:18:59.191769    40 ThriftClientManager-inl.h:67] resolve "metad2":9559 as "172.27.0.4":9559
+I20231204 17:18:59.193814    41 ThriftClientManager-inl.h:67] resolve "metad2":9559 as "172.27.0.4":9559
+I20231204 17:18:59.196717    42 ThriftClientManager-inl.h:67] resolve "metad2":9559 as "172.27.0.4":9559
+I20231204 17:18:59.218864     1 MetaClient.cpp:3267] Load leader ok
+I20231204 17:18:59.221660     1 MetaClient.cpp:162] Register time task for heartbeat!
+I20231204 17:18:59.222061     1 GraphSessionManager.cpp:337] Total of 0 sessions are loaded
+E20231204 17:18:59.222640     1 MemoryUtils.cpp:167] Total memory less than untracked 50 Mib, MemoryTracker limit is not set properly,  Current memory stats:MemoryStats: 8589934592.000GiB/40.000MiB
+I20231204 17:18:59.222900     1 MemoryUtils.cpp:171] MemoryTracker set static ratio: 0.8
+I20231204 17:18:59.226725     1 Snowflake.cpp:17] WorkerId init success: 0
+I20231204 17:18:59.226938    46 GraphServer.cpp:63] Starting nebula-graphd on graphd:9669
+I20231204 17:18:59.353914    22 GraphService.cpp:77] Authenticating user root from 172.27.0.11:38996
+E20231204 17:19:36.767050    39 GeneratedCodeHelper.cpp:201] received invalid message from client: No version identifier... old protocol client in strict mode? sz=1195725856
+E20231204 17:19:36.767458    39 GeneratedCodeHelper.cpp:134] received invalid message from client: No version identifier... old protocol client in strict mode? sz=1195725856
+E20231204 17:19:36.767469    39 GeneratedCodeHelper.cpp:93] invalid message from client in function process
+E20231204 17:19:37.831053    40 GeneratedCodeHelper.cpp:201] received invalid message from client: No version identifier... old protocol client in strict mode? sz=1195725856
+E20231204 17:19:37.831178    40 GeneratedCodeHelper.cpp:134] received invalid message from client: No version identifier... old protocol client in strict mode? sz=1195725856
+E20231204 17:19:37.831197    40 GeneratedCodeHelper.cpp:93] invalid message from client in function process
+E20231204 17:19:42.875923    38 GeneratedCodeHelper.cpp:201] received invalid message from client: No version identifier... old protocol client in strict mode? sz=1195725856
+E20231204 17:19:42.876147    38 GeneratedCodeHelper.cpp:134] received invalid message from client: No version identifier... old protocol client in strict mode? sz=1195725856
+E20231204 17:19:42.876174    38 GeneratedCodeHelper.cpp:93] invalid message from client in function process
+E20231204 17:21:33.876318    36 GeneratedCodeHelper.cpp:201] received invalid message from client: No version identifier... old protocol client in strict mode? sz=1195725856
+E20231204 17:21:33.876477    36 GeneratedCodeHelper.cpp:134] received invalid message from client: No version identifier... old protocol client in strict mode? sz=1195725856
+E20231204 17:21:33.876497    36 GeneratedCodeHelper.cpp:93] invalid message from client in function process
+E20231204 17:21:33.876579    36 HeaderServerChannel.cpp:100] Received invalid request from client: apache::thrift::transport::TTransportException: Header transport frame is too large: 1414811695 (hex 0x5454502f, ascii 'TTP/') (transport apache::thrift::PreReceivedDataAsyncTransportWrapper, address 172.27.0.1, port 46432)
+E20231204 17:21:33.877089    35 GeneratedCodeHelper.cpp:201] received invalid message from client: No version identifier... old protocol client in strict mode? sz=1195725856
+E20231204 17:21:33.877215    35 GeneratedCodeHelper.cpp:134] received invalid message from client: No version identifier... old protocol client in strict mode? sz=1195725856
+E20231204 17:21:33.877236    35 GeneratedCodeHelper.cpp:93] invalid message from client in function process
+E20231204 17:21:33.877290    35 HeaderServerChannel.cpp:100] Received invalid request from client: apache::thrift::transport::TTransportException: Header transport frame is too large: 1414811695 (hex 0x5454502f, ascii 'TTP/') (transport apache::thrift::PreReceivedDataAsyncTransportWrapper, address 172.27.0.1, port 46438)
+E20231204 17:21:33.877830    42 GeneratedCodeHelper.cpp:201] received invalid message from client: No version identifier... old protocol client in strict mode? sz=1195725856
+E20231204 17:21:33.877867    42 GeneratedCodeHelper.cpp:134] received invalid message from client: No version identifier... old protocol client in strict mode? sz=1195725856
+E20231204 17:21:33.877883    42 GeneratedCodeHelper.cpp:93] invalid message from client in function process
+E20231204 17:21:33.877934    42 HeaderServerChannel.cpp:100] Received invalid request from client: apache::thrift::transport::TTransportException: Header transport frame is too large: 1414811695 (hex 0x5454502f, ascii 'TTP/') (transport apache::thrift::PreReceivedDataAsyncTransportWrapper, address 172.27.0.1, port 46448)
+E20231204 17:21:34.936170    41 GeneratedCodeHelper.cpp:201] received invalid message from client: No version identifier... old protocol client in strict mode? sz=1195725856
+E20231204 17:21:34.936348    41 GeneratedCodeHelper.cpp:134] received invalid message from client: No version identifier... old protocol client in strict mode? sz=1195725856
+E20231204 17:21:34.936390    41 GeneratedCodeHelper.cpp:93] invalid message from client in function process
+E20231204 17:21:34.936537    41 HeaderServerChannel.cpp:100] Received invalid request from client: apache::thrift::transport::TTransportException: Header transport frame is too large: 1414811695 (hex 0x5454502f, ascii 'TTP/') (transport apache::thrift::PreReceivedDataAsyncTransportWrapper, address 172.27.0.1, port 46464)
+E20231204 17:21:34.937832    40 GeneratedCodeHelper.cpp:201] received invalid message from client: No version identifier... old protocol client in strict mode? sz=1195725856
+E20231204 17:21:34.937958    40 GeneratedCodeHelper.cpp:134] received invalid message from client: No version identifier... old protocol client in strict mode? sz=1195725856
+E20231204 17:21:34.938099    40 GeneratedCodeHelper.cpp:93] invalid message from client in function process
+E20231204 17:21:34.938284    40 HeaderServerChannel.cpp:100] Received invalid request from client: apache::thrift::transport::TTransportException: Header transport frame is too large: 1414811695 (hex 0x5454502f, ascii 'TTP/') (transport apache::thrift::PreReceivedDataAsyncTransportWrapper, address 172.27.0.1, port 46478)
+E20231204 17:21:34.939957    39 GeneratedCodeHelper.cpp:201] received invalid message from client: No version identifier... old protocol client in strict mode? sz=1195725856
+E20231204 17:21:34.940022    39 GeneratedCodeHelper.cpp:134] received invalid message from client: No version identifier... old protocol client in strict mode? sz=1195725856
+E20231204 17:21:34.940049    39 GeneratedCodeHelper.cpp:93] invalid message from client in function process
+E20231204 17:21:34.940135    39 HeaderServerChannel.cpp:100] Received invalid request from client: apache::thrift::transport::TTransportException: Header transport frame is too large: 1414811695 (hex 0x5454502f, ascii 'TTP/') (transport apache::thrift::PreReceivedDataAsyncTransportWrapper, address 172.27.0.1, port 46480)
+E20231204 17:21:39.984174    37 GeneratedCodeHelper.cpp:201] received invalid message from client: No version identifier... old protocol client in strict mode? sz=1195725856
+E20231204 17:21:39.984395    37 GeneratedCodeHelper.cpp:134] received invalid message from client: No version identifier... old protocol client in strict mode? sz=1195725856
+E20231204 17:21:39.984439    37 GeneratedCodeHelper.cpp:93] invalid message from client in function process
+E20231204 17:21:39.984512    37 HeaderServerChannel.cpp:100] Received invalid request from client: apache::thrift::transport::TTransportException: Header transport frame is too large: 1414811695 (hex 0x5454502f, ascii 'TTP/') (transport apache::thrift::PreReceivedDataAsyncTransportWrapper, address 172.27.0.1, port 46494)
+E20231204 17:21:39.985172    38 GeneratedCodeHelper.cpp:201] received invalid message from client: No version identifier... old protocol client in strict mode? sz=1195725856
+E20231204 17:21:39.985236    38 GeneratedCodeHelper.cpp:134] received invalid message from client: No version identifier... old protocol client in strict mode? sz=1195725856
+E20231204 17:21:39.985262    38 GeneratedCodeHelper.cpp:93] invalid message from client in function process
+E20231204 17:21:39.985337    38 HeaderServerChannel.cpp:100] Received invalid request from client: apache::thrift::transport::TTransportException: Header transport frame is too large: 1414811695 (hex 0x5454502f, ascii 'TTP/') (transport apache::thrift::PreReceivedDataAsyncTransportWrapper, address 172.27.0.1, port 46492)
+E20231204 17:21:39.986167    36 GeneratedCodeHelper.cpp:201] received invalid message from client: No version identifier... old protocol client in strict mode? sz=1195725856
+E20231204 17:21:39.986227    36 GeneratedCodeHelper.cpp:134] received invalid message from client: No version identifier... old protocol client in strict mode? sz=1195725856
+E20231204 17:21:39.986279    36 GeneratedCodeHelper.cpp:93] invalid message from client in function process
+E20231204 17:21:39.986361    36 HeaderServerChannel.cpp:100] Received invalid request from client: apache::thrift::transport::TTransportException: Header transport frame is too large: 1414811695 (hex 0x5454502f, ascii 'TTP/') (transport apache::thrift::PreReceivedDataAsyncTransportWrapper, address 172.27.0.1, port 46516)
+I20231204 17:24:30.548286     1 GraphDaemon.cpp:176] Signal 15(Terminated) received, stopping this server
+I20231204 17:24:30.553958    46 GraphServer.cpp:74] nebula-graphd on graphd:9669 has been stopped
+I20231204 17:24:30.554222     1 GraphDaemon.cpp:161] The graph Daemon stopped
+I20231204 17:24:30.554256     1 GraphServer.cpp:109] The graph server has been stopped
